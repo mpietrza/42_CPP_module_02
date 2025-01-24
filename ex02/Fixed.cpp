@@ -6,12 +6,13 @@
 /*   By: mpietrza <mpietrza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:46:31 by mpietrza          #+#    #+#             */
-/*   Updated: 2025/01/24 15:06:16 by mpietrza         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:42:31 by mpietrza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 #include <cmath>
+#include <cstdint> //For int64_t used in multiplication and division
 
 //Default constructor:
 Fixed::Fixed( void ) : _fixedPointNumVal(0)
@@ -57,6 +58,99 @@ Fixed	&Fixed::operator=(const Fixed &other)
 		this->_fixedPointNumVal = other._fixedPointNumVal;
 	std::cout << "Copy assignment operator called" << std::endl;
 	return *this;
+}
+
+//comparison operators
+
+bool	operator>(const Fixed &other) const
+{
+	return this->_fixedPointNumVal > other._fixedPointNumVal;
+}
+
+bool	operator<(const Fixed &other) const
+{
+	return this->_fixedPointNumVal < other._fixedPointNumVal;
+}
+
+bool	operator>=(const fixed &other) const
+{
+	return this->_fixedPointNumVal >= other._fixedPointNumVal;
+}
+
+bool	operator<=(const fixed &other) const
+{
+	return this->_fixedPointNumVal <= other._fixedPointNumVal;
+}
+
+bool	operator==(const fixed &other) const
+{
+	return this->_fixedPointNumVal == other._fixedPointNumVal;
+}
+
+bool	operator!=(const fixed &other) const
+{
+	return this->_fixedPoinNumVal != other._fixedPointNumVal;
+}
+
+//arythmetic operators
+Fixed operator+(const Fixed &other) const
+{
+	Fixed result;
+	result._fixedPointNumVal = this->_fixedPointNumVal + other._fixedPointNumVal;
+	return result;
+}
+
+Fixed operator-(const Fixed &other) const
+{
+	Fixed result;
+	result._fixedPointNumVal = this->_fixedPointNumVal - other._fixedPointNumVal;
+	return result;
+}
+
+Fixed operator*(const Fixed &other) const
+{
+	Fixed result;
+	int64_t temp = static_cast<int64_t>(this->_fixedPointNumVal) * static_cast<int64_t>(other->_fixedPointNumVal);
+	result._fixedPointNumVal = static_cast<int>(temp >> _numOfFractBits);
+	return result;
+}
+
+Fixed operator/(const Fixed &other) const
+{
+	Fixed result;
+	int64_t temp = static_cast<int64_t>(this->_fixedPointNumVal) << _numOfFractBits / static_cast<int64_t>(other->_fixedPointNumVal);
+	result._fixedPointNumVal = this->_fixedPointNumVal - other._fixedPointNumVal;
+	return result;
+}
+
+//pre-increment operator
+Fixed &operator++()
+{
+	this->_fixedPointNumVal += 1; //increment by the smallest representable value (1 bit)
+	return *this;
+}
+
+//post-increment operator
+Fixed operator++(int)
+{
+	Fixed temp = *this; // a copy
+	this->_fixedPointNumVal += 1; //increment by the smallest representable value (1bit)
+	return temp; // return the copy
+}
+
+//pre-decrement operator
+Fixed &operator--()
+{
+	this->_fixedPointNumVal -= 1; //increment by the smallest representable value (1 bit)
+	return *this;
+}
+
+//post-decrement operator
+Fixed operator--(int)
+{
+	Fixed temp = *this; // a copy
+	this->_fixedPointNumVal -= 1; //increment by the smallest representable value (1bit)
+	return temp; // return the copy
 }
 
 //Destructor
@@ -110,9 +204,9 @@ int	Fixed::toInt(void) const
 /**
  * @brief Overload of the << operator
  * 
- * @param out
- * @param fixed
- * @return std::ostream&
+ * @param std::ostream &out - a reference to an output stream object from the Standard Library
+ * @param const Fixed &fixed - a reference to a constant object of the Fixed class 
+ * @return std::ostream& - a reference to an output stream object from the Standard Library 
  * 
  * This function is called when the << operator is used with an object of the Fixed class.
  * It outputs the value of the object to the output stream.
