@@ -6,7 +6,7 @@
 /*   By: mpietrza <mpietrza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:52:04 by mpietrza          #+#    #+#             */
-/*   Updated: 2025/01/24 15:53:50 by mpietrza         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:38:16 by mpietrza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,19 @@ class Fixed
 		void	setRawBits( int const raw );
 		float	toFloat(void) const;
 		int		toInt(void) const;
+
+		//overloaded member functions for min and max
+		//2 fixed-point numbers, the smallest one
+		static	Fixed &min(Fixed &a, Fixed &b);
+
+		//2 constant fixed-point numbers, the smallest one
+		static const	Fixed &min(const Fixed &a, const Fixed &b);
+
+		//2 fixed-point numbers, the greatest one
+		static	Fixed &max(Fixed &a, Fixed &b);
+
+		//2 constant fixed-point numbers, the greatest one:
+		static const	Fixed &max(const Fixed &a, const Fixed &b);
 };
 
 std::ostream	&operator<<(std::ostream &out, const Fixed &fixed);
