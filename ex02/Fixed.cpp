@@ -6,7 +6,7 @@
 /*   By: mpietrza <mpietrza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:46:31 by mpietrza          #+#    #+#             */
-/*   Updated: 2025/01/27 16:38:55 by mpietrza         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:37:27 by mpietrza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ Fixed Fixed::operator*(const Fixed &other) const
 Fixed Fixed::operator/(const Fixed &other) const
 {
 	Fixed result;
-	int64_t temp = static_cast<int64_t>(this->_fixedPointNumVal) << _numOfFractBits / static_cast<int64_t>(other._fixedPointNumVal);
+	int64_t temp = (static_cast<int64_t>(this->_fixedPointNumVal)) << _numOfFractBits / static_cast<int64_t>(other._fixedPointNumVal);
 	result._fixedPointNumVal = static_cast<int>(temp);
 	return result;
 }
