@@ -6,13 +6,12 @@
 /*   By: mpietrza <mpietrza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:46:31 by mpietrza          #+#    #+#             */
-/*   Updated: 2025/01/30 16:37:47 by mpietrza         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:28:12 by mpietrza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 #include <cmath>
-#include <cstdint> //For int64_t used in multiplication and division
 
 //Default constructor:
 Fixed::Fixed( void ) : _fixedPointNumVal(0)
@@ -110,16 +109,16 @@ Fixed Fixed::operator-(const Fixed &other) const
 Fixed Fixed::operator*(const Fixed &other) const
 {
 	Fixed result;
-	int64_t temp = static_cast<int64_t>(this->_fixedPointNumVal) * static_cast<int64_t>(other._fixedPointNumVal);
-	result._fixedPointNumVal = static_cast<int>(temp >> _numOfFractBits);
+	long long temp = (long long)this->_fixedPointNumVal * (long long)other._fixedPointNumVal;
+	result._fixedPointNumVal = (int)(temp >> _numOfFractBits);
 	return result;
 }
 
 Fixed Fixed::operator/(const Fixed &other) const
 {
 	Fixed result;
-	int64_t temp = (static_cast<int64_t>(this->_fixedPointNumVal)) << _numOfFractBits / static_cast<int64_t>(other._fixedPointNumVal);
-	result._fixedPointNumVal = static_cast<int>(temp);
+	long long temp = ((long long)this->_fixedPointNumVal) / (other._fixedPointNumVal >> _numOfFractBits);
+	result._fixedPointNumVal = (int)temp;
 	return result;
 }
 
